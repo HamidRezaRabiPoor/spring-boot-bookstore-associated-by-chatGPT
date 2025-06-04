@@ -17,14 +17,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookServiceRepositoryImpl implements BookServiceRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceRepositoryImpl.class);
 
-    private ChatgptServiceAssistance chatgptServiceAssistance;
+
+    private final ChatgptServiceAssistance chatgptServiceAssistance;
     @Autowired
     ModelMapper modelMapper;
     @Autowired
     BookRepository bookRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceRepositoryImpl.class);
 
+    // constructor to initial chatgpt class and repository
+    public BookServiceRepositoryImpl(BookRepository bookRepository,
+             ChatgptServiceAssistance chatgptServiceAssistance){
+        this.bookRepository = bookRepository;
+        this.chatgptServiceAssistance = chatgptServiceAssistance;
+    }
 
 
     @Override
@@ -75,15 +82,17 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     }
 
     @Override
-    public void addNewBook(BookDTO bookDTO) {
-       Book bookById = bookRepository.findById(bookDTO.getId());
-       if(!bookById.objectIsEmpty())
-           LOGGER.info("such book exists");
-       String prompt = """
-               what the book %s written by %s is about?
-               """.formatted(bookById.getTitle(), bookById.getAuthor());
-       bookById.setGptRecommend(chatgptServiceAssistance.chat(prompt));
-       bookRepository.save(bookById);
+    public void addNewBook(BookDTO bookDTO)  {
+        if(!bookDTO.objectIsEmpty()) {
+            String prompt = """
+                    in less than 30 words tell me what the book %s written by %s is about?
+                    """.formatted(bookDTO.getTitle(), bookDTO.getAuthor());
+            bookDTO.setGptRecommend(chatgptServiceAssistance.chat(prompt));
+
+            bookRepository.save(modelMapper.map(bookDTO, Book.class));
+        }else {
+            LOGGER.info("object is empty");
+        }
     }
 
     @Override

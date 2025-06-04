@@ -26,7 +26,7 @@ public interface BookServiceRepository {
     void addBookQuantity(long id, int quantity);
 
     // add new book
-    void addNewBook(BookDTO bookDTO);
+    void addNewBook(BookDTO bookDTO) throws InterruptedException;
 
     // book total count
     int bookTotalCount(long id);
