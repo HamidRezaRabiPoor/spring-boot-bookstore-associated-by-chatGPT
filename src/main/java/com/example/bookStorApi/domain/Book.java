@@ -109,4 +109,7 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id, title, author, totalCount, price, sold, category, gptRecommend, description);
     }
+    public boolean objectIsEmpty(){
+        return (this.id == 0 && this.author == null && this.title == null);
+    }
 }

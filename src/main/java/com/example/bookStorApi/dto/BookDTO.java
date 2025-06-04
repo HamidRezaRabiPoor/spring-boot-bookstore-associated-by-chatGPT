@@ -98,4 +98,8 @@ public class BookDTO {
     public int hashCode() {
         return Objects.hash(id, title, author, price, totalCount, sold, category, gptRecommend, description);
     }
+
+    public boolean objectIsEmpty(){
+        return (this.id == 0 && this.title == null && this.author == null);
+    }
 }
