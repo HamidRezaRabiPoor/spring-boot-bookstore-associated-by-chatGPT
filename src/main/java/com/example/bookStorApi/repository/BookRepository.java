@@ -24,11 +24,11 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     @Transactional
     @Modifying
     @Query(value = "update book b set b.totalCount=?2, b.sold=?3 where b.id=?1")
-    boolean updateTotalCountAndSoldById(long id, int totalCount, int sold);
+    void updateTotalCountAndSoldById(long id, int totalCount, int sold);
 
     // update total count of book
     @Transactional
     @Modifying
     @Query(value = "update book b set b.totalCount=?2 where b.id=?1")
-    boolean addTotalCountById(long id, int totalCount);
+    void addTotalCountById(long id, int totalCount);
 }

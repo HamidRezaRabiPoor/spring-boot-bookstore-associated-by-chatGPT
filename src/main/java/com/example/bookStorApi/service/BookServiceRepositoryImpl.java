@@ -88,7 +88,6 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
                     in less than 30 words tell me what the book %s written by %s is about?
                     """.formatted(bookDTO.getTitle(), bookDTO.getAuthor());
             bookDTO.setGptRecommend(chatgptServiceAssistance.chat(prompt));
-
             bookRepository.save(modelMapper.map(bookDTO, Book.class));
         }else {
             LOGGER.info("object is empty");

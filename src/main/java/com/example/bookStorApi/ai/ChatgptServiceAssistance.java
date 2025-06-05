@@ -1,7 +1,6 @@
 package com.example.bookStorApi.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Service
