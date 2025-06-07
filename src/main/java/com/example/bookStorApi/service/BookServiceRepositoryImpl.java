@@ -26,7 +26,7 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     BookRepository bookRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceRepositoryImpl.class);
 
-    // constructor to initial chatgpt class and repository
+    // constructor to initial ChatGPT class and repository
     public BookServiceRepositoryImpl(BookRepository bookRepository,
              ChatgptServiceAssistance chatgptServiceAssistance){
         this.bookRepository = bookRepository;
@@ -102,7 +102,7 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     }
 
 
-    // map book list to bookDTO list
+    // map booklist to bookDTO list
     private List<BookDTO> mapBookListToBookDTOList(List<Book> books){
         return  books
                 .stream()
