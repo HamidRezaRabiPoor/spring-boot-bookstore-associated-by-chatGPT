@@ -64,12 +64,13 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     }
 
     @Override
-    public void updateSoldBook(long id) {
+    public Void updateSoldBook(long id) {
       Optional<Book> bookById = Optional.ofNullable(Optional.ofNullable(bookRepository.findById(id))
               .orElseThrow(() -> new BookNotFoundException("no such book exists")));
       int totalCount = bookById.orElseThrow().getTotalCount() - 1;
       int sold = bookById.orElseThrow().getSold()  +1;
       bookRepository.updateTotalCountAndSoldById(id, totalCount, sold);
+        return null;
     }
 
     @Override
@@ -109,4 +110,6 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
                 .map(book -> modelMapper.map(book, BookDTO.class))
                 .collect(Collectors.toList());
     }
+
+
 }

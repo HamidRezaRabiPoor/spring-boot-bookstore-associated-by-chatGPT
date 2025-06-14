@@ -20,7 +20,7 @@ public interface BookServiceRepository {
     BookDTO getBookByTitle(String title);
 
     // update book
-    void updateSoldBook(long id);
+    Void updateSoldBook(long id);
 
     // add quantity of the book
     void addBookQuantity(long id, int quantity);
