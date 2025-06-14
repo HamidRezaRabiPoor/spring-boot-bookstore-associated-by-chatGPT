@@ -91,6 +91,10 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public boolean objectIsEmpty(){
+        return (id == 0 && username == null && password == null && ip == null);
+    }
+
 
 
 

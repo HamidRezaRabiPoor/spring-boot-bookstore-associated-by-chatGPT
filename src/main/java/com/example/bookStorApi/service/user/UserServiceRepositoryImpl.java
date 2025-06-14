@@ -1,4 +1,4 @@
-package com.example.bookStorApi.service;
+package com.example.bookStorApi.service.user;
 
 import com.example.bookStorApi.dto.UserDTO;
 import com.example.bookStorApi.exceptions.UserNotFoundException;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class UserServiceRepositoryImpl implements UserServiceRepository{
+public class UserServiceRepositoryImpl implements UserServiceRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceRepositoryImpl.class);
 
     @Autowired
@@ -26,8 +26,9 @@ public class UserServiceRepositoryImpl implements UserServiceRepository{
 
     @Override
     public void addNewUser(UserDTO userDTO) {
-        User user = new User();
-        if(userDTO.getUsername().length() < 4 ||
+
+
+        if(userDTO.getUsername().isEmpty() ||
         userDTO.getPassword().length() < 8 ||
         userDTO.getAddress().length() < 12 ||
         !userDTO.getEmail().contains("@")  ||
@@ -35,18 +36,20 @@ public class UserServiceRepositoryImpl implements UserServiceRepository{
         !userDTO.getPhone().startsWith("09")  ||
         userDTO.getIp().length() < 4 ){
             LOGGER.info("invalid values");
+
+        }else {
+            User user = new User();
+            user.setUsername(userDTO.getUsername());
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            user.setAddress(userDTO.getAddress());
+            user.setEmail(userDTO.getEmail());
+            user.setPhone(userDTO.getPhone());
+            user.setFullName(userDTO.getFullName());
+            user.setState(userDTO.getState());
+            user.setIp(userDTO.getIp());
+            LOGGER.info("new user is ready to be added");
+            userRepository.save(user);
         }
-        user.setId(userDTO.getId());
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setAddress(userDTO.getAddress());
-        user.setEmail(userDTO.getEmail());
-        user.setPhone(userDTO.getPhone());
-        user.setFullName(userDTO.getFullName());
-        user.setState(userDTO.getState());
-        user.setIp(userDTO.getIp());
-        LOGGER.info("new user is ready to be added");
-        userRepository.save(user);
 
     }
 

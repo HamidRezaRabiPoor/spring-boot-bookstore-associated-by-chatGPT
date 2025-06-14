@@ -1,4 +1,4 @@
-package com.example.bookStorApi.service;
+package com.example.bookStorApi.service.book;
 
 import com.example.bookStorApi.ai.ChatgptServiceAssistance;
 import com.example.bookStorApi.domain.Book;

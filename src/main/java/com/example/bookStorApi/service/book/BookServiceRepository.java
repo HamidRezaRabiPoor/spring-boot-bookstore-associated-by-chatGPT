@@ -1,4 +1,4 @@
-package com.example.bookStorApi.service;
+package com.example.bookStorApi.service.book;
 
 import com.example.bookStorApi.dto.BookDTO;
 
@@ -22,10 +22,10 @@ public interface BookServiceRepository {
     // update book
     void updateSoldBook(long id);
 
-    // add quantity of book
+    // add quantity of the book
     void addBookQuantity(long id, int quantity);
 
-    // add new book
+    // add the new book
     void addNewBook(BookDTO bookDTO) throws InterruptedException;
 
     // book total count

@@ -1,4 +1,4 @@
-package com.example.bookStorApi.service;
+package com.example.bookStorApi.service.user;
 
 import com.example.bookStorApi.dto.UserDTO;
 
