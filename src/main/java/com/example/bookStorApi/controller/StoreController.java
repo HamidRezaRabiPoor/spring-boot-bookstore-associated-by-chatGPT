@@ -1,30 +1,39 @@
 package com.example.bookStorApi.controller;
 
+import com.example.bookStorApi.ai.ChatgptServiceAssistance;
 import com.example.bookStorApi.dto.BookDTO;
 import com.example.bookStorApi.service.book.BookServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/bookstore")
 public class StoreController {
-    @Autowired
-    BookServiceRepository bookServiceRepository;
 
-    
+    // Initial repository and ChatGPT assistance
+    private final BookServiceRepository bookServiceRepository;
+    private final ChatgptServiceAssistance chatgptServiceAssistance;
+    public StoreController(BookServiceRepository bookServiceRepository,
+                           ChatgptServiceAssistance chatgptServiceAssistance){
+        this.bookServiceRepository = bookServiceRepository;
+        this.chatgptServiceAssistance = chatgptServiceAssistance;
+    }
+
+
     // List of existed books
-    // returns a list of all existed books in database
+    // returns a list of all existed books in the database
     @GetMapping("/books")
-    public ResponseEntity<BookDTO> bookDtoList(){
-        Optional<BookDTO> optionalBookDTO = Optional.ofNullable(
-                (BookDTO) bookServiceRepository.getAllBooks());
+    public ResponseEntity<List<BookDTO>> bookDtoList(){
+        Optional<List<BookDTO>> optionalBookDTO = Optional.ofNullable(bookServiceRepository.getAllBooks());
         return optionalBookDTO.map(bookDTO ->
-                new ResponseEntity<>(bookDTO, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+                 new ResponseEntity<>(bookDTO, HttpStatus.OK))
+            .orElseGet(() ->
+                 new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
     // Add the new book to store
     @PostMapping("/registry")
