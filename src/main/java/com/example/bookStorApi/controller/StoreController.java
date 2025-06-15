@@ -49,19 +49,30 @@ public class StoreController {
     }
     // book by title of the book
     // [ask ChatGPT to give some information about this book]
+    // *** when using @PathVariable in URL don't place it within double quotation ***
     @GetMapping("/book_by_title/{title}")
     public ResponseEntity<BookDTO> bookByTitle(@PathVariable("title") String title){
         Optional<BookDTO> optionalBookDTO = Optional.ofNullable(bookServiceRepository.getBookByTitle(title));
+        // Declare prompt and prepare it for user
+        String prompt = String.format(
+                "Outline other similar books to %s", optionalBookDTO.orElseThrow().getTitle());
+        optionalBookDTO.orElseThrow().setGptRecommend(chatgptServiceAssistance.chat(prompt));
         return optionalBookDTO.map(bookDTO ->
                         new ResponseEntity<>(bookDTO, HttpStatus.OK))
                 .orElseGet(() ->
                         new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
+
     // book by name of the author
     // [ask ChatGPT to give some information about this author]
+    // *** when using @PathVariable in URL don't place it within double quotation ***
    @GetMapping("/book_by_author/{author}")
    public ResponseEntity<BookDTO> bookDTOResponseEntity(@PathVariable("author") String author){
         Optional<BookDTO> optionalBookDTO = Optional.ofNullable(bookServiceRepository.getBookByAuthor(author));
+       // Declare prompt and prepare it for user
+        String prompt = String.format(
+                "Give me other books written by this author: %s", optionalBookDTO.orElseThrow().getAuthor());
+        optionalBookDTO.orElseThrow().setGptRecommend(chatgptServiceAssistance.chat(prompt));
         return optionalBookDTO.map(bookDTO ->
                         new ResponseEntity<>(bookDTO, HttpStatus.OK))
                 .orElseGet(() ->

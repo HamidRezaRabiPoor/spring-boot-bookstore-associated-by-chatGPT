@@ -58,8 +58,9 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     @Override
     public BookDTO getBookByTitle(String title) {
         Optional<Book> bookByTitle = Optional.ofNullable(bookRepository.findByTitle(title));
-        if(bookByTitle.isEmpty())
+        if(bookByTitle.isEmpty()) {
             LOGGER.info("no such book by name of {} exists", title);
+        }
         return modelMapper.map(bookByTitle, BookDTO.class);
     }
 
@@ -88,7 +89,7 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
             String prompt = """
                     in less than 30 words tell me what the book %s written by %s is about?
                     """.formatted(bookDTO.getTitle(), bookDTO.getAuthor());
-            bookDTO.setGptRecommend(chatgptServiceAssistance.chat(prompt));
+            bookDTO.setDescription(chatgptServiceAssistance.chat(prompt));
             bookRepository.save(modelMapper.map(bookDTO, Book.class));
         }else {
             LOGGER.info("object is empty");
