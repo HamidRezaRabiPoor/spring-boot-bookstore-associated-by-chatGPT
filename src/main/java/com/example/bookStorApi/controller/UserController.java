@@ -21,7 +21,7 @@ public class UserController {
         this.httpServletRequest = httpServletRequest;
         this.userServiceRepository = userServiceRepository;
     }
-
+    // Register new user
     @PostMapping("/registry")
     public String registerNewUser(@RequestParam UserDTO userDTO){
         String msg;
@@ -33,5 +33,15 @@ public class UserController {
             msg = "there is a problem in registering user";
         }
         return msg;
+    }
+    // Get details of user
+    // order to fill profile placeholders
+    @GetMapping("/profile")
+    public UserDTO getDetailsOfUser(){
+        String ip = httpServletRequest.getRemoteAddr();
+        UserDTO userByIpAddress = userServiceRepository.getUserByIpAddress(ip);
+        if(userByIpAddress.objectIsEmpty())
+            return new UserDTO();
+        return userByIpAddress;
     }
 }
