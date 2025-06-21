@@ -52,11 +52,22 @@ public class UserServiceRepositoryImpl implements UserServiceRepository {
         }
 
     }
-
+    // Find user by it ip address
     @Override
     public UserDTO getUserByIpAddress(String ip) {
         Optional<User> userByIpAddress = Optional.ofNullable(Optional.ofNullable(userRepository.findUserByIp(ip))
                 .orElseThrow(() -> new UserNotFoundException("no such user exists")));
         return modelMapper.map(userByIpAddress, UserDTO.class);
+    }
+
+    // delete user by it id
+    @Override
+    public void deleteUserByUserId(long id) {
+        Optional<User> userById = Optional.ofNullable(userRepository.findUserById(id));
+        if(userById.isEmpty())
+            LOGGER.info("no such user existed with this id : {}", id);
+        LOGGER.info("user deleted successfully");
+        userRepository.deleteUserById(id);
+
     }
 }

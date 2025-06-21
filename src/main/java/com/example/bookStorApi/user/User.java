@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+@Entity(name = "user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

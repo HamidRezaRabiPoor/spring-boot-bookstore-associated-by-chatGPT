@@ -8,4 +8,6 @@ public interface UserServiceRepository {
 
     UserDTO getUserByIpAddress(String ip);
 
+    void deleteUserByUserId(long id);
+
 }

@@ -33,4 +33,10 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     @Modifying
     @Query(value = "update book b set b.totalCount=?2 where b.id=?1")
     void addTotalCountById(long id, int totalCount);
+
+    // Delete no existed book from DB
+    @Transactional
+    @Modifying
+    //@Query(value = "delete any from book b where b.id = ?1")
+    void deleteBookById(long id);
 }

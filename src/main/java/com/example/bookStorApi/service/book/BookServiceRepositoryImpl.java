@@ -65,13 +65,12 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
     }
 
     @Override
-    public Void updateSoldBook(long id) {
+    public void updateSoldBook(long id) {
       Optional<Book> bookById = Optional.ofNullable(Optional.ofNullable(bookRepository.findById(id))
               .orElseThrow(() -> new BookNotFoundException("no such book exists")));
       int totalCount = bookById.orElseThrow().getTotalCount() - 1;
       int sold = bookById.orElseThrow().getSold()  +1;
       bookRepository.updateTotalCountAndSoldById(id, totalCount, sold);
-        return null;
     }
 
     @Override
@@ -101,6 +100,16 @@ public class BookServiceRepositoryImpl implements BookServiceRepository {
         Optional<Book> bookById = Optional.ofNullable(Optional.ofNullable(bookRepository.findById(id))
                 .orElseThrow(() -> new BookNotFoundException("no book exists")));
         return bookById.orElseThrow().getTotalCount();
+    }
+
+    // Delete book that is no existed anymore
+    @Override
+    public void deleteUnexistedBook(long id) {
+      Optional<Book> bookById = Optional.ofNullable(bookRepository.findById(id));
+      if(bookById.isEmpty())
+          LOGGER.info("no book by such id {} existed", id);
+      LOGGER.info("book deleted successfully!");
+      bookRepository.deleteBookById(id);
     }
 
 

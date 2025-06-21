@@ -94,16 +94,6 @@ public class StoreController {
         bookServiceRepository.updateSoldBook(id);
         return "Quantity of sold updated";
     }
-    // Updates the quantity of book by adding it number
-    // in increase per quantity parameter
-    @PutMapping("/add_book_quantity")
-    private String updateQuantityOfBook(@RequestParam long id, int quantity){
-        bookServiceRepository.addBookQuantity(id, quantity);
-        return "Quantity of book updated";
-    }
-
-
-
 
 
 

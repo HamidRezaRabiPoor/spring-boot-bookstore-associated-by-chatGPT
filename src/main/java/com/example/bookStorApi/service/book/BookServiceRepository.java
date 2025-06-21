@@ -20,7 +20,7 @@ public interface BookServiceRepository {
     BookDTO getBookByTitle(String title);
 
     // update book
-    Void updateSoldBook(long id);
+    void updateSoldBook(long id);
 
     // add quantity of the book
     void addBookQuantity(long id, int quantity);
@@ -30,4 +30,7 @@ public interface BookServiceRepository {
 
     // book total count
     int bookTotalCount(long id);
+
+    // Delete a book
+    void deleteUnexistedBook(long id);
 }
