@@ -37,6 +37,6 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     // Delete no existed book from DB
     @Transactional
     @Modifying
-    //@Query(value = "delete any from book b where b.id = ?1")
+    @Query(value = "delete from book b where b.id = ?1")
     void deleteBookById(long id);
 }

@@ -17,15 +17,17 @@ public class ConfigSecurityFilterChain {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(requests ->
-                requests.requestMatchers("/bookstore/**")
-                 .permitAll().anyRequest()
-                 .authenticated())
-                .formLogin(form ->
-                        form.loginPage("/login")
-                        .permitAll())
-                .logout(LogoutConfigurer::permitAll);
-        return http.build();
+       http.authorizeHttpRequests(requests ->
+               requests.requestMatchers("/admin").hasRole("ADMIN")
+                       .requestMatchers("/user").hasRole("USER")
+                       .requestMatchers("/bookstore/**")
+                       .permitAll()
+                       .anyRequest()
+                       .authenticated())
+               .formLogin(form ->
+                       form.loginPage("/login"))
+               .logout(LogoutConfigurer::permitAll);
+       return http.build();
     }
 
     @Bean
