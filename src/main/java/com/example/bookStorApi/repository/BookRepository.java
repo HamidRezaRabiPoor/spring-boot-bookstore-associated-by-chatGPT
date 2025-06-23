@@ -11,15 +11,15 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book,Long> {
 
     // find the book by it id
-    @Query(value = "select * from book b where b.id = ?1", nativeQuery = true)
+    @Query(value = "select b from book b where b.id = ?1", nativeQuery = true)
     Book findById(long id);
 
     // find the book by it title
-    @Query(value = "select * from book b where b.title=?1", nativeQuery = true)
+    @Query(value = "select b from book b where b.title=?1", nativeQuery = true)
     Book findByTitle(String title);
 
     // find the book by the name of author
-    @Query(value = "select * from book b where b.author = ?1", nativeQuery = true)
+    @Query(value = "select b from book b where b.author = ?1", nativeQuery = true)
     Book findByAuthor(String author);
 
     // update columns by given arguments
