@@ -10,14 +10,25 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class ConfigSecurityFilterChain {
 
+
+    private final CustomizedIpAddressFiltering customizedIpAddressFiltering;
+
+    // Inject filter class
+    public ConfigSecurityFilterChain(CustomizedIpAddressFiltering customizedIpAddressFiltering){
+        this.customizedIpAddressFiltering = customizedIpAddressFiltering;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-       http.authorizeHttpRequests(requests ->
+
+        http.addFilterBefore(customizedIpAddressFiltering, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(requests ->
                requests.requestMatchers("/admin").hasRole("ADMIN")
                        .requestMatchers("/user").hasRole("USER")
                        .requestMatchers("/bookstore/**")

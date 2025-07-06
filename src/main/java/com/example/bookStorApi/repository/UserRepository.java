@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // Query for find user by it username
@@ -22,5 +24,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Query for select user by it id
     @Query(value = "select u from user u where u.id= ?1")
     User findUserById(long id);
+
+    // select all ip,s from the database
+    @Query(value = "select u.ip from user u")
+    List<String> findAllIps();
 
 }
